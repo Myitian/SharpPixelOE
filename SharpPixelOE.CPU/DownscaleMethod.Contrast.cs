@@ -1,4 +1,4 @@
-﻿namespace SharpPixelOE;
+﻿namespace SharpPixelOE.CPU;
 
 public static partial class DownscaleMethod
 {
@@ -18,26 +18,26 @@ public static partial class DownscaleMethod
             GC.AllocateUninitializedArray<float>(sliceSize);
 
         // L
-        Array2D<float> srcChannel = new(width, height, imgPlanarLabA.UnderlyingMemory);
-        Array2D<float> dstChannel = new(resultWidth, resultHeight, resultLabA.UnderlyingMemory);
+        Array2D<float> srcChannel = new(width, height, imgPlanarLabA.Memory);
+        Array2D<float> dstChannel = new(resultWidth, resultHeight, resultLabA.Memory);
         Array2D<float> padBuffer = needPad ?
             new(paddedWidth, paddedHeight) : srcChannel;
         Utils.ApplyChunk(srcChannel, dstChannel, padBuffer, sliceBuffer, patchSize, patchSize, Utils.FindPixel);
         // a
-        srcChannel = new(width, height, imgPlanarLabA.UnderlyingMemory[size..]);
-        dstChannel = new(resultWidth, resultHeight, resultLabA.UnderlyingMemory[resultSize..]);
+        srcChannel = new(width, height, imgPlanarLabA.Memory[size..]);
+        dstChannel = new(resultWidth, resultHeight, resultLabA.Memory[resultSize..]);
         if (!needPad)
             padBuffer = srcChannel;
         Utils.ApplyChunk(srcChannel, dstChannel, padBuffer, sliceBuffer, patchSize, patchSize, Utils.Median);
         // b
-        srcChannel = new(width, height, imgPlanarLabA.UnderlyingMemory[(size * 2)..]);
-        dstChannel = new(resultWidth, resultHeight, resultLabA.UnderlyingMemory[(resultSize * 2)..]);
+        srcChannel = new(width, height, imgPlanarLabA.Memory[(size * 2)..]);
+        dstChannel = new(resultWidth, resultHeight, resultLabA.Memory[(resultSize * 2)..]);
         if (!needPad)
             padBuffer = srcChannel;
         Utils.ApplyChunk(srcChannel, dstChannel, padBuffer, sliceBuffer, patchSize, patchSize, Utils.Median);
         // A
-        srcChannel = new(width, height, imgPlanarLabA.UnderlyingMemory[(size * 3)..]);
-        dstChannel = new(resultWidth, resultHeight, resultLabA.UnderlyingMemory[(resultSize * 3)..]);
+        srcChannel = new(width, height, imgPlanarLabA.Memory[(size * 3)..]);
+        dstChannel = new(resultWidth, resultHeight, resultLabA.Memory[(resultSize * 3)..]);
         if (!needPad)
             padBuffer = srcChannel;
         Utils.ApplyChunk(srcChannel, dstChannel, padBuffer, sliceBuffer, patchSize, patchSize, Utils.FindPixel);

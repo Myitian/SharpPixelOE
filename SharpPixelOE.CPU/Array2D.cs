@@ -1,22 +1,23 @@
 ﻿using System.Text;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 public class Array2D<T>
 {
-    public readonly Memory<T> UnderlyingMemory;
+    public readonly T[]? UnderlyingArray;
+    public readonly Memory<T> Memory;
     public readonly int XLength;
     public readonly int YLength;
     public readonly int Length;
 
     public Span<T> Span
-        => UnderlyingMemory.Span;
+        => Memory.Span;
     public Span<T> this[int y]
-        => UnderlyingMemory.Span.Slice(y * XLength, XLength);
+        => Memory.Span.Slice(y * XLength, XLength);
     public T this[int x, int y]
     {
-        get => UnderlyingMemory.Span[y * XLength + x];
-        set => UnderlyingMemory.Span[y * XLength + x] = value;
+        get => Memory.Span[y * XLength + x];
+        set => Memory.Span[y * XLength + x] = value;
     }
     public Slice RootSlice => new(this, 0, 0, XLength, YLength);
 
@@ -27,7 +28,7 @@ public class Array2D<T>
         long size = (long)xLen * yLen;
         ArgumentOutOfRangeException.ThrowIfGreaterThan(size, int.MaxValue);
         Length = (int)size;
-        UnderlyingMemory = GC.AllocateUninitializedArray<T>(Length);
+        Memory = UnderlyingArray = GC.AllocateUninitializedArray<T>(Length);
         XLength = xLen;
         YLength = yLen;
     }
@@ -38,9 +39,13 @@ public class Array2D<T>
         long size = (long)xLen * yLen;
         ArgumentOutOfRangeException.ThrowIfGreaterThan(size, memory.Length);
         Length = (int)size;
-        UnderlyingMemory = memory[..Length];
+        Memory = memory[..Length];
         XLength = xLen;
         YLength = yLen;
+    }
+    public Array2D(int xLen, int yLen, T[] array) : this(xLen, yLen, array.AsMemory())
+    {
+        UnderlyingArray = array;
     }
 
     public void Clear()
@@ -115,7 +120,7 @@ public class Array2D<T>
     public Array2D<T> Copy()
     {
         Array2D<T> result = new(XLength, YLength);
-        UnderlyingMemory.CopyTo(result.UnderlyingMemory);
+        Memory.CopyTo(result.Memory);
         return result;
     }
 
@@ -196,9 +201,9 @@ public class Array2D<T>
         public readonly int YLength = yLength;
 
         public readonly Span<T> this[int y] // Array2D[y + YOffset].Slice(XOffset, XLength);
-            => Array2D.UnderlyingMemory.Span.Slice((y + YOffset) * Array2D.XLength + XOffset, XLength);
+            => Array2D.Memory.Span.Slice((y + YOffset) * Array2D.XLength + XOffset, XLength);
         public readonly T this[int x, int y] // this[y][x];
-            => Array2D.UnderlyingMemory.Span[(y + YOffset) * Array2D.XLength + XOffset + x];
+            => Array2D.Memory.Span[(y + YOffset) * Array2D.XLength + XOffset + x];
         public readonly T At(int index)
         {
             (int y, int x) = int.DivRem(index, XLength);

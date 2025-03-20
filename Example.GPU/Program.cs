@@ -1,12 +1,12 @@
 ﻿using ILGPU;
 using ILGPU.Runtime;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.Drawing;
-using SharpPixelOE.GPU;
-using Myitian.Drawing;
-using System.Collections.Immutable;
 using ILGPU.Runtime.CPU;
+using Myitian.Drawing;
+using SharpPixelOE.GPU;
+using System.Collections.Immutable;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace Example.GPU;
 
@@ -27,7 +27,7 @@ internal class Program
         Console.WriteLine("Enter device index:");
         while (!int.TryParse(Console.ReadLine(), out selected)) ;
         using Accelerator accelerator = ctx.Devices[selected].CreateAccelerator(ctx);
-        using AcceleratorStream stream = accelerator.CreateStream();
+        AcceleratorStream stream = accelerator.DefaultStream;
         while (true)
         {
             Console.WriteLine("Open image:");
@@ -42,9 +42,9 @@ internal class Program
                 stream,
                 img,
                 256,
-                DownscaleMethod.Center,
+                DownscaleMethod.ContrastBased,
                 6,
-                pixelSize: 1,
+                pixelSize: 20,
                 thickness: 2);
             img.Dispose();
             using DirectBitmap rbmp = new(result.XLength, result.YLength);

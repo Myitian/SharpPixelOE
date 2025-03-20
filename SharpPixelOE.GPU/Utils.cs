@@ -15,7 +15,7 @@ internal static class Utils
     {
         public abstract static TValue Apply(ArrayView2D<TValue, Stride2D.DenseX> chunk);
     }
-    public struct MaxOp<T> : IApplyChunkOp2D<MaxOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
+    public abstract class MaxOp<T> : IApplyChunkOp2D<MaxOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
     {
         public static T Apply(ArrayView2D<T, Stride2D.DenseX> chunk)
         {
@@ -35,7 +35,7 @@ internal static class Utils
             return m;
         }
     }
-    public struct MinOp<T> : IApplyChunkOp2D<MinOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
+    public abstract class MinOp<T> : IApplyChunkOp2D<MinOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
     {
         public static T Apply(ArrayView2D<T, Stride2D.DenseX> chunk)
         {
@@ -55,7 +55,7 @@ internal static class Utils
             return m;
         }
     }
-    public struct MiddleOp<T> : IApplyChunkOp2D<MiddleOp<T>, T> where T : unmanaged
+    public abstract class MiddleOp<T> : IApplyChunkOp2D<MiddleOp<T>, T> where T : unmanaged
     {
         public static T Apply(ArrayView2D<T, Stride2D.DenseX> chunk)
         {
@@ -67,7 +67,7 @@ internal static class Utils
             return chunk[i % w, i / w];
         }
     }
-    public struct MedianOp<T> : IApplyChunkOp1D<MedianOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
+    public abstract class MedianOp<T> : IApplyChunkOp1D<MedianOp<T>, T> where T : unmanaged, IComparisonOperators<T, T, bool>
     {
         public static T Apply(ArrayView<T> chunk)
         {
@@ -78,7 +78,7 @@ internal static class Utils
             return chunk[len / 2];
         }
     }
-    public struct FindPixelOp : IApplyChunkOp1D<FindPixelOp, float>
+    public abstract class FindPixelOp : IApplyChunkOp1D<FindPixelOp, float>
     {
         public static float Apply(ArrayView<float> chunk)
         {
@@ -91,7 +91,11 @@ internal static class Utils
             float med = chunk[half];
             float mu = Sum(chunk) / len;
             float min = chunk[0];
-            float max = chunk[len - 1];
+            float max = med;
+            for (int i = half; i < len; i++)
+            {
+                max = IntrinsicMath.Max(chunk[i], max);
+            }
             float maxi_med = max - med;
             float med_mini = med - min;
             if (med < mu && maxi_med > med_mini)
@@ -195,9 +199,9 @@ internal static class Utils
     }
     public static void SortArray<T>(ArrayView<T> array) where T : unmanaged, IComparisonOperators<T, T, bool>
     {
-        int L = 0, R = array.IntLength - 1;
+        int L = 0, R = array.IntLength - 1, R2 = (R + 1) / 2;
         bool flag;
-        for (int i = L; i < R; i++)
+        for (int i = L; i <= R2; i++)
         {
             flag = true;
             for (int j = R; j > i; j--)

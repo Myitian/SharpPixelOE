@@ -1,9 +1,7 @@
-﻿using System.IO;
-using System;
-using System.Numerics.Tensors;
+﻿using System.Numerics.Tensors;
 using System.Runtime.InteropServices;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 class Outline
 {

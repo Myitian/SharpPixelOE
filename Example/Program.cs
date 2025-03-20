@@ -1,5 +1,5 @@
 ﻿using Myitian.Drawing;
-using SharpPixelOE;
+using SharpPixelOE.CPU;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -25,9 +25,9 @@ internal class Program
                     256,
                     DownscaleMethod.ContrastBased,
                     6,
-                    pixelSize: 1,
+                    pixelSize: 20,
                     thickness: 2);
-            using DirectBitmap rbmp = new(result.XLength, result.YLength, result.UnderlyingMemory);
+            using DirectBitmap rbmp = new(result.XLength, result.YLength, result.Memory);
             sw.Stop();
             Console.WriteLine($"Done in {sw.ElapsedMilliseconds}ms!");
             Console.WriteLine("Save to:");

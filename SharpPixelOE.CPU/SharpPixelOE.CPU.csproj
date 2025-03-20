@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ILGPU" Version="1.5.2" />
-    <PackageReference Include="ILGPU.Algorithms" Version="1.5.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SharpPixelOE\SharpPixelOE.csproj" />
   </ItemGroup>
 

@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpPixelOE.GPU", "SharpPi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.GPU", "Example.GPU\Example.GPU.csproj", "{D07FF119-1CFE-434E-8B67-EF46BB5C4F29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpPixelOE_GUI.WPF", "SharpPixelOE_GUI.WPF\SharpPixelOE_GUI.WPF.csproj", "{F7A6DA85-CC12-4D99-B6B8-98310D9976FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpPixelOE.CPU", "SharpPixelOE.CPU\SharpPixelOE.CPU.csproj", "{6F30FEC8-5C11-4EF3-9DFB-8EF1F9E97E42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{D07FF119-1CFE-434E-8B67-EF46BB5C4F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D07FF119-1CFE-434E-8B67-EF46BB5C4F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D07FF119-1CFE-434E-8B67-EF46BB5C4F29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A6DA85-CC12-4D99-B6B8-98310D9976FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A6DA85-CC12-4D99-B6B8-98310D9976FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A6DA85-CC12-4D99-B6B8-98310D9976FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A6DA85-CC12-4D99-B6B8-98310D9976FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F30FEC8-5C11-4EF3-9DFB-8EF1F9E97E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F30FEC8-5C11-4EF3-9DFB-8EF1F9E97E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F30FEC8-5C11-4EF3-9DFB-8EF1F9E97E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F30FEC8-5C11-4EF3-9DFB-8EF1F9E97E42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

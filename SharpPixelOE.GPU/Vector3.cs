@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharpPixelOE.GPU;
+﻿namespace SharpPixelOE.GPU;
 
 public struct Vector3(float x, float y, float z)
 {

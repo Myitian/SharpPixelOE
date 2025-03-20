@@ -2,7 +2,7 @@
 using System.Numerics.Tensors;
 using System.Runtime.CompilerServices;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 internal static class Utils
 {
@@ -56,9 +56,9 @@ internal static class Utils
         T max = chunks[^1];
         T maxi_med = max - med;
         T med_mini = med - min;
-        if ((med < mu) && (maxi_med > med_mini))
+        if (med < mu && maxi_med > med_mini)
             return min;
-        if ((med > mu) && (maxi_med < med_mini))
+        if (med > mu && maxi_med < med_mini)
             return max;
         return mid;
     }

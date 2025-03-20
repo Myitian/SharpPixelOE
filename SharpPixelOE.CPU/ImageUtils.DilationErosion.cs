@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 public static partial class ImageUtils
 {
@@ -35,7 +35,7 @@ public static partial class ImageUtils
         // });
         int w = src.XLength, h = src.YLength;
         for (int y = 0; y < h; y++)
-            for(int x = 0; x < w; x++)
+            for (int x = 0; x < w; x++)
                 kernelFunc(x, y, w, h, in kernel, src.Span, dst.Span);
     }
     public static void ErodePacked4xU8Kernel(

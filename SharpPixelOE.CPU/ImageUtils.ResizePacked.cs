@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 public static partial class ImageUtils
 {

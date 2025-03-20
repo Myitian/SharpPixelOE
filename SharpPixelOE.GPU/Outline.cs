@@ -42,8 +42,7 @@ class Outline
                 Utils.ApplyChunk<float, Utils.MinOp<float>>(accelerator, mmStream, mmPadBuffer.View, minL.View, k, stride);
                 Utils.ApplyChunk<float, Utils.MaxOp<float>>(accelerator, mmStream, mmPadBuffer.View, maxL.View, k, stride);
 
-                /*using*/
-                Array2D<float> avgPadBuffer = Utils.ApplyChunkPad(accelerator, stream, imgL.View, k * 2, stride);
+                using Array2D<float> avgPadBuffer = Utils.ApplyChunkPad(accelerator, stream, imgL.View, k * 2, stride);
                 using MemoryBuffer1D<float, Stride1D.Dense> tmp1D = accelerator.Allocate1D<float>(avgL.Length * k * k * 4);
                 Utils.ApplyChunk<float, Utils.MedianOp<float>>(accelerator, stream, avgPadBuffer.View, avgL.View, tmp1D.View.BaseView, k * 2, stride);
                 mmStream.Synchronize();
@@ -57,7 +56,7 @@ class Outline
         }
         using Array2D<float> tmp = ImageUtils.ResizeSimpleFP32(accelerator, stream, result, width / 2, height / 2, InterpolationMethod.Bilinear);
         ImageUtils.ResizeSimpleFP32To(accelerator, stream, tmp, result, InterpolationMethod.Bilinear);
-        
+
         float min = accelerator.Reduce<float, MinFloat>(stream, result.RawView);
         float max = accelerator.Reduce<float, MaxFloat>(stream, result.RawView);
         var kernel_2 = accelerator.LoadAutoGroupedKernel<Index1D, ArrayView<float>, float, float>(ExpansionWeightKernel_2);

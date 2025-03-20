@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace SharpPixelOE;
+namespace SharpPixelOE.CPU;
 
 public class ColorspaceConvert
 {

@@ -1,5 +1,4 @@
-﻿using ILGPU;
-using ILGPU.Runtime;
+﻿using ILGPU.Runtime;
 using System.Drawing;
 
 namespace SharpPixelOE.GPU;
@@ -23,26 +22,7 @@ public static class PixelOE
         bool noUpscale = false,
         bool noDownscale = false)
     {
-        double r0 = (double)img.XLength / img.YLength;
-        (int w, int wr) = Math.DivRem(img.XLength, patchSize);
-        (int h, int hr) = Math.DivRem(img.YLength, patchSize);
-        ReadOnlySpan<int> ws = wr == 0 ? [w] : [w, w + 1];
-        ReadOnlySpan<int> hs = hr == 0 ? [h] : [h, h + 1];
-        double bestDiff = double.PositiveInfinity;
-        int bestW = 0, bestH = 0;
-        for (int wi = 0; wi < ws.Length; wi++)
-        {
-            for (int hi = 0; hi < hs.Length; hi++)
-            {
-                double diff = IntrinsicMath.Abs((double)ws[wi] / hs[hi] - r0);
-                if (diff < bestDiff)
-                {
-                    bestW = ws[wi];
-                    bestH = hs[hi];
-                }
-            }
-        }
-        Size size = new(bestW, bestH);
+        Size size = new(img.XLength / patchSize, img.YLength / patchSize);
         return Pixelize(
             accelerator,
             stream,
@@ -181,12 +161,17 @@ public static class PixelOE
         */
         weight?.Dispose();
         Array2D<uint> resultPackedBGRA = ImageUtils.PlanarLabAToPackedBGRA(accelerator, stream, img_sm);
-        return noUpscale ? resultPackedBGRA : ImageUtils.ResizePacked4xU8(
+        img_sm.Dispose();
+
+        Array2D<uint> result = noUpscale ? resultPackedBGRA : ImageUtils.ResizePacked4xU8(
             accelerator,
             stream,
             resultPackedBGRA,
             resultPackedBGRA.XLength * pixelSize.Value,
             resultPackedBGRA.YLength * pixelSize.Value,
             InterpolationMethod.Nearest);
+        if (!noUpscale)
+            resultPackedBGRA.Dispose();
+        return result;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SharpPixelOE;
+﻿namespace SharpPixelOE.CPU;
 
 public static partial class ImageUtils
 {

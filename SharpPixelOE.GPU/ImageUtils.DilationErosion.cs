@@ -1,6 +1,5 @@
 ﻿using ILGPU;
 using ILGPU.Runtime;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SharpPixelOE.GPU;
