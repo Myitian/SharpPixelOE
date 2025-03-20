@@ -44,8 +44,8 @@ internal class Program
                 256,
                 DownscaleMethod.ContrastBased,
                 6,
-                pixelSize: 20,
-                thickness: 2);
+                pixelSize: 6,
+                thickness: 0);
             img.Dispose();
             using DirectBitmap rbmp = new(result.XLength, result.YLength);
             result.RawView.CopyToCPU(stream, rbmp.Data.Span);

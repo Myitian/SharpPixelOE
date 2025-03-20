@@ -16,6 +16,7 @@ class Outline
         float avgScale = 10,
         float distScale = 3)
     {
+        stride = Math.Max(stride, 1);
         int width = imgPackedBGRA.XLength;
         int height = imgPackedBGRA.YLength;
         int size = width * height;

@@ -17,30 +17,25 @@
     <conv:BooleanNotConverter x:Key="BooleanNotConverter" />
     <conv:ComparisonConverter x:Key="ComparisonConverter" />
     <conv:EnumIndexConverter x:Key="EnumIndexConverter" />
-    <RoutedUICommand x:Key="CMD_Browse"
-                     Text="浏览…" />
-    <RoutedUICommand x:Key="CMD_Open"
-                     Text="打开" />
-    <RoutedUICommand x:Key="CMD_Load"
-                     Text="加载" />
-    <RoutedUICommand x:Key="CMD_Save"
-                     Text="保存" />
-    <RoutedUICommand x:Key="CMD_Convert"
-                     Text="转换" />
-    <RoutedUICommand x:Key="CMD_Info_SharpPixelOE"
-                     Text="SharpPixelOE 项目信息" />
-    <RoutedUICommand x:Key="CMD_Info_PixelOE"
-                     Text="PixelOE 项目信息" />
-    <RoutedUICommand x:Key="CMD_License_SharpPixelOE"
-                     Text="SharpPixelOE 许可证" />
-    <RoutedUICommand x:Key="CMD_License_PixelOE"
-                     Text="PixelOE 许可证" />
+    <RoutedCommand x:Key="CMD_Browse" />
+    <RoutedCommand x:Key="CMD_Open" />
+    <RoutedCommand x:Key="CMD_Load" />
+    <RoutedCommand x:Key="CMD_Save" />
+    <RoutedCommand x:Key="CMD_Convert" />
+    <RoutedCommand x:Key="CMD_Info_SharpPixelOE" />
+    <RoutedCommand x:Key="CMD_Info_PixelOE" />
+    <RoutedCommand x:Key="CMD_License_SharpPixelOE" />
+    <RoutedCommand x:Key="CMD_License_PixelOE" />
   </Window.Resources>
   <Window.InputBindings>
     <KeyBinding Gesture="Ctrl+O"
-                Command="{StaticResource CMD_Open}" />
+                Command="{StaticResource CMD_Open}"
+                Modifiers="Ctrl"
+                Key="O" />
     <KeyBinding Gesture="Ctrl+S"
-                Command="{StaticResource CMD_Save}" />
+                Command="{StaticResource CMD_Save}"
+                Modifiers="Ctrl"
+                Key="S" />
   </Window.InputBindings>
   <Window.CommandBindings>
     <CommandBinding Command="{StaticResource CMD_Browse}"
@@ -82,9 +77,11 @@
         <MenuItem Header="浏览… (_B)"
                   Command="{StaticResource CMD_Browse}" />
         <MenuItem Header="打开 (_O)"
-                  Command="{StaticResource CMD_Open}" />
+                  Command="{StaticResource CMD_Open}"
+                  InputGestureText="Ctrl+O" />
         <MenuItem Header="保存 (_S)"
-                  Command="{StaticResource CMD_Save}" />
+                  Command="{StaticResource CMD_Save}"
+                  InputGestureText="Ctrl+S" />
       </MenuItem>
       <MenuItem Header="编辑 (_E)">
         <MenuItem Header="转换 (_C)"
@@ -359,7 +356,7 @@
            Margin="5"
            Source="{Binding ResultImage}"
            RenderOptions.BitmapScalingMode="NearestNeighbor"
-           RenderOptions.EdgeMode="Aliased"  />
+           RenderOptions.EdgeMode="Aliased" />
     <DockPanel Grid.Row="3"
                Margin="5,0,5,5">
       <Label DockPanel.Dock="Left"

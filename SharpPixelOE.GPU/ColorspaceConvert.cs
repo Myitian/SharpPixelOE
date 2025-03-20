@@ -12,8 +12,10 @@ public class ColorspaceConvert
         ArrayView<uint> bgra,
         ArrayView<float> laba)
     {
+        stream.Synchronize();
         var kernel = accelerator.LoadAutoGroupedKernel<Index1D, ArrayView<uint>, ArrayView<float>>(PackedBGRAToPlanarLabAKernel);
         kernel(stream, bgra.IntLength, bgra, laba);
+        stream.Synchronize();
     }
     public static void PackedBGRAToL(
         Accelerator accelerator,
@@ -45,7 +47,7 @@ public class ColorspaceConvert
 
         ArrayView<byte> bgraSpan = bgra.Cast<byte>();
         int offset = i.X * 4;
-        int length = bgraSpan.IntLength / 4;
+        int length = bgra.IntLength;
         laba[length * 3 + i] = bgraSpan[offset + 3] / 255f;
         Vector3 rgb = new(
             InverseCompanding_sRGB(bgraSpan[offset + 2] / 255f),

@@ -64,6 +64,7 @@ public partial class MainWindow : Window
                     });
                     CPUArray2D result = CPUPixelOE.Pixelize(
                         img,
+                        new System.Drawing.Size(ViewModel.OutputWidth, ViewModel.OutputHeight),
                         patchSize: ViewModel.PatchSize,
                         pixelSize: ViewModel.PixelSize,
                         thickness: ViewModel.Thickness,
@@ -78,7 +79,7 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                    Accelerator accelerator = ViewModel.Accelerators[selected] ?? device.CreateAccelerator(ViewModel.Context);
+                    Accelerator accelerator = ViewModel.Accelerators[selected] ??= device.CreateAccelerator(ViewModel.Context);
                     AcceleratorStream stream = accelerator.DefaultStream;
                     GPUArray2D img = Dispatcher.Invoke(() =>
                     {
@@ -90,6 +91,7 @@ public partial class MainWindow : Window
                         accelerator,
                         stream,
                         img,
+                        new System.Drawing.Size(ViewModel.OutputWidth, ViewModel.OutputHeight),
                         patchSize: ViewModel.PatchSize,
                         pixelSize: ViewModel.PixelSize,
                         thickness: ViewModel.Thickness,
@@ -118,7 +120,7 @@ public partial class MainWindow : Window
             {
                 ViewModel.ConvertButtonString = "转换";
                 IsConverting = false;
-                CommandManager.InvalidateRequerySuggested();
+                Dispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
             }
         });
     }
@@ -166,8 +168,6 @@ public partial class MainWindow : Window
             try
             {
                 FormatConvertedBitmap img = new(new BitmapImage(uri), PixelFormats.Bgra32, null, 0);
-                if (img.CanFreeze)
-                    img.Freeze();
                 _ = img.PixelWidth;
                 ViewModel.SourceImage = img;
             }

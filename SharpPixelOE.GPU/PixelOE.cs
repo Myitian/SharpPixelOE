@@ -108,8 +108,10 @@ public static class PixelOE
         Array2D<uint> original = imgPackedBGRA;
         Array2D<float>? weight = null;
         if (thickness > 0)
+        {
             (imgPackedBGRA, weight) = Outline.OutlineExpansion(accelerator, stream, imgPackedBGRA, thickness, thickness, patchSize, 9, 4);
-        original.Dispose();
+            original.Dispose();
+        }
         /* USAGE NOT IMPLEMENTED
         else if (weightedColor)
         {
@@ -129,6 +131,7 @@ public static class PixelOE
         Array2D<float> img_sm;
         using (Array2D<float> imgPlanarLabA = ImageUtils.PackedBGRAToPlanarLabA(accelerator, stream, imgPackedBGRA))
         {
+            stream.Synchronize();
             imgPackedBGRA.Dispose();
             img_sm = downscaleFunc(accelerator, stream, imgPlanarLabA, patchSize);
         }
