@@ -13,7 +13,7 @@ public static partial class ImageUtils
             _ => throw new ArgumentOutOfRangeException(nameof(method))
         });
     }
-    public static Array2D<uint> ResizePacked4xU8(Array2D<uint> src, int dstWidth, int dstHeight, SimpleInterpolationKernel<byte> method)
+    public static Array2D<uint> ResizePacked4xU8(Array2D<uint> src, int dstWidth, int dstHeight, InterpolationKernel<byte> method)
     {
         if (SimpleResizePreprocess(src, dstWidth, dstHeight, out Array2D<uint> dst))
             return dst;

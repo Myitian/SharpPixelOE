@@ -59,7 +59,7 @@ public static partial class ImageUtils
             _ => throw new ArgumentOutOfRangeException(nameof(method))
         });
     }
-    public static Array2D<float> ResizeSimpleFP32(Array2D<float> src, int dstWidth, int dstHeight, SimpleInterpolationKernel<float> method)
+    public static Array2D<float> ResizeSimpleFP32(Array2D<float> src, int dstWidth, int dstHeight, InterpolationKernel<float> method)
     {
         if (SimpleResizePreprocess(src, dstWidth, dstHeight, out Array2D<float> dst))
             return dst;
@@ -71,7 +71,7 @@ public static partial class ImageUtils
                 method(x, y, srcWidth, srcHeight, dstWidth, dstHeight, srcSpan, dstSpan);
         return dst;
     }
-    public static void ResizeSimpleFP32To(Array2D<float> src, Array2D<float> dst, SimpleInterpolationKernel<float> method)
+    public static void ResizeSimpleFP32To(Array2D<float> src, Array2D<float> dst, InterpolationKernel<float> method)
     {
         if (SimpleResizePreprocess(src, dst))
             return;
@@ -207,7 +207,7 @@ public static partial class ImageUtils
         dst[offset] = CubicPolate(data[0], data[1], data[2], data[3], fY);
     }
 }
-public delegate void SimpleInterpolationKernel<T>(
+public delegate void InterpolationKernel<T>(
     int dstX, int dstY,
     int srcW, int srcH,
     int dstW, int dstH,

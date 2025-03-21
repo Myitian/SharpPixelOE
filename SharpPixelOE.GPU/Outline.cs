@@ -44,7 +44,7 @@ class Outline
                 Utils.ApplyChunk<float, Utils.MaxOp<float>>(accelerator, mmStream, mmPadBuffer.View, maxL.View, k, stride);
 
                 using Array2D<float> avgPadBuffer = Utils.ApplyChunkPad(accelerator, stream, imgL.View, k * 2, stride);
-                using MemoryBuffer1D<float, Stride1D.Dense> tmp1D = accelerator.Allocate1D<float>(avgL.Length * k * k * 4);
+                using MemoryBuffer1D<float, Stride1D.Dense> tmp1D = accelerator.Allocate1D<float>(avgL.Length * k * k * 4L);
                 Utils.ApplyChunk<float, Utils.MedianOp<float>>(accelerator, stream, avgPadBuffer.View, avgL.View, tmp1D.View.BaseView, k * 2, stride);
                 mmStream.Synchronize();
                 stream.Synchronize();

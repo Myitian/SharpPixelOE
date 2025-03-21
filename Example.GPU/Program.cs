@@ -42,10 +42,10 @@ internal class Program
                 stream,
                 img,
                 256,
-                DownscaleMethod.ContrastBased,
+                DownscaleMethod.Bicubic,
                 6,
                 pixelSize: 6,
-                thickness: 0);
+                thickness: 1);
             img.Dispose();
             using DirectBitmap rbmp = new(result.XLength, result.YLength);
             result.RawView.CopyToCPU(stream, rbmp.Data.Span);

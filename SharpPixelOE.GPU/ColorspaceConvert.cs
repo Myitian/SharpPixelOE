@@ -12,10 +12,8 @@ public class ColorspaceConvert
         ArrayView<uint> bgra,
         ArrayView<float> laba)
     {
-        stream.Synchronize();
         var kernel = accelerator.LoadAutoGroupedKernel<Index1D, ArrayView<uint>, ArrayView<float>>(PackedBGRAToPlanarLabAKernel);
         kernel(stream, bgra.IntLength, bgra, laba);
-        stream.Synchronize();
     }
     public static void PackedBGRAToL(
         Accelerator accelerator,
